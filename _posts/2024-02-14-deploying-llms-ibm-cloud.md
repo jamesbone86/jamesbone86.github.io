@@ -1,13 +1,13 @@
 ---
-id: nh-065
+id: jb-001
 title: 'Deploying LLMs via Hugging Face on IBM Cloud'
 date: 2024-02-14 00:01:00 +0100
 author: 'Niklas Heidloff'
 layout: post
-guid: 'heidloff.net/nh-065'
-permalink: /article/deploying-llms-ibm-cloud/
+guid: 'jamesbone.net/jb-001'
+permalink: /article/2024-02-14/deploying-llms-ibm-cloud/
 custom_permalink:
-    - article/deploying-llms-ibm-cloud/
+    - article/2024-02-14/deploying-llms-ibm-cloud/
 image: /assets/img/2024/02/tgi.png
 pin: true
 ---
