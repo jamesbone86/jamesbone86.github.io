@@ -1,18 +1,20 @@
 ---
-id: jb-001
-title: 'Deploying LLMs via Hugging Face on IBM Cloud'
-date: 2024-02-14 00:01:00 +0100
-author: 'Niklas Heidloff'
-layout: post
-guid: 'jamesbone.net/jb-001'
-permalink: /article/2024-02-14/deploying-llms-ibm-cloud/
-custom_permalink:
-    - article/2024-02-14/deploying-llms-ibm-cloud/
-image: /assets/img/2024/02/tgi.png
+
+id: jb-001  
+title: 'Deploying LLMs via Hugging Face on IBM Cloud'  
+date: 2024-02-14 00:01:00 +0100  
+author: 'Niklas Heidloff'  
+layout: post  
+guid: 'jamesbone.net/jb-001'  
+permalink: /article/2024-02-14/deploying-llms-ibm-cloud/  
+custom\_permalink:  
+\- article/2024-02-14/deploying-llms-ibm-cloud/  
+image: /assets/img/2024/02/tgi.png  
 pin: true
+
 ---
 
-*With the Text Generation Inference toolkit from Hugging Face Large Language Models can be hosted efficiently. This post describes how to run open-source models or fine-tuned models on IBM Cloud.*
+`_With the Text Generation Inference toolkit from Hugging Face Large Language Models can be hosted efficiently. This post describes how to run open-source models or fine-tuned models on IBM Cloud._`
 
 `Text Generation Inference` (TGI) from [Hugging Face](https://huggingface.co/docs/text-generation-inference) "is a toolkit for deploying and serving Large Language Models (LLMs). TGI enables high-performance text generation for the most popular open-source LLMs".
 
@@ -20,17 +22,17 @@ Below are step by step instructions how to install TGI on virtual servers with V
 
 In previous posts I described how to provision V100 GPUs in the IBM Cloud and how to fine-tune your own models:
 
-* [Hugging Face Text Generation Inference](https://huggingface.co/docs/text-generation-inference)
-* [Fine-tuning LLMs via Hugging Face on IBM Cloud]({{ "/article/fine-tuning-llms-ibm-cloud/" | relative_url }})
-* [Deploying a Virtual Server with GPU in the IBM Cloud]({{ "/article/deploying-virtual-server-gpu-ibm-cloud/" | relative_url }})
-* [Announcing Mistral 7B](https://mistral.ai/news/announcing-mistral-7b/)
-* [Hugging Face and IBM working together in open source](https://developer.ibm.com/blogs/awb-hugging-face-and-ibm-working-together-in-open-source/)
+*   [Hugging Face Text Generation Inference](https://huggingface.co/docs/text-generation-inference)
+*   \[Fine-tuning LLMs via Hugging Face on IBM Cloud\]({{ "/article/fine-tuning-llms-ibm-cloud/" | relative\_url }})
+*   \[Deploying a Virtual Server with GPU in the IBM Cloud\]({{ "/article/deploying-virtual-server-gpu-ibm-cloud/" | relative\_url }})
+*   [Announcing Mistral 7B](https://mistral.ai/news/announcing-mistral-7b/)
+*   [Hugging Face and IBM working together in open source](https://developer.ibm.com/blogs/awb-hugging-face-and-ibm-working-together-in-open-source/)
 
 ## Docker
 
 My virtual server runs Ubuntu. To install Docker Engine, follow the [documentation](https://docs.docker.com/engine/install/ubuntu/).
 
-```bash
+```
 sudo apt-get update
 sudo apt-get install ca-certificates curl
 sudo install -m 0755 -d /etc/apt/keyrings
@@ -48,7 +50,7 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 
 Next the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/latest/install-guide.html) needs to be installed and configured. This toolkit allows containers to access GPUs.
 
-```bash
+```
 curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
   && curl -s -L https://nvidia.github.io/libnvidia-container/stable/deb/nvidia-container-toolkit.list | \
     sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
@@ -63,7 +65,7 @@ sudo systemctl restart docker
 
 The [TGI container](https://huggingface.co/docs/text-generation-inference/quicktour) can be launched with open-source models from Hugging Face or local models, for example when models have already been downloaded from Hugging Face or when models have been fine-tuned.
 
-```bash
+```
 # Hugging Face model (automatically downloaded)
 model=mistralai/Mistral-7B-v0.1
 docker run --gpus all --shm-size 1g -p 8080:80 -v $volume:/data ghcr.io/huggingface/text-generation-inference:1.4 --model-id $model
@@ -79,7 +81,7 @@ docker run --gpus all --shm-size 1g -p 8080:80 -v $volume:/data  ghcr.io/hugging
 
 Here is some of the output of the container after it has been started and invoked once.
 
-```bash
+```
 2024-02-14T06:49:24.783197Z  INFO text_generation_launcher: Args { model_id: "/data/models--mistralai--Mistral-7B-v0.1/snapshots/26bca36bde8333b5d7f72e9ed20ccda6a618af24", ...
 2024-02-14T06:49:24.783316Z  INFO download: text_generation_launcher: Starting download process.
 2024-02-14T06:49:27.099268Z  INFO text_generation_launcher: Files are already present on the host. Skipping download.
@@ -141,7 +143,7 @@ print(response.json())
 
 Mistral returns the correct SQL statement.
 
-```bash
+```
 python3 test-tgis.py 
 {'generated_text': 'SELECT COUNT(*) FROM Employee'}
 ```
